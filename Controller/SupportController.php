@@ -24,7 +24,7 @@ class SupportController extends AppController
     public function noConnectError()
     {
         $this->set('messageTitle', 'Une erreur est survenue !');
-        $this->set('messageHTML', '<strong>Vous devez être connecté pour pouvoir accéder au Support !<strong>');
+        $this->set('messageHTML', '<strong>Vous devez être connecté pour pouvoir accéder au Support !</strong>');
         $this->render('Errors/mineweb_custom_message');
     }
 
