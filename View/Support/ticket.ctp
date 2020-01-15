@@ -19,7 +19,7 @@ $Support = new SupportController();
             <hr>
             <div class="panel panel-default">
                 <div style="word-wrap: break-word;" class="panel-body">
-                    <?= $ticket['Ticket']['reponse_text']; ?>
+                    <?= htmlspecialchars_decode($ticket['Ticket']['reponse_text']); ?>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@ $Support = new SupportController();
                     </h3>
                 </div>
                 <div style="word-wrap: break-word;" class="panel-body">
-                    <?= $answer['ReplyTicket']['reply']; ?>
+                    <?= htmlspecialchars_decode($answer['ReplyTicket']['reply']); ?>
                 </div>
                 <div class="panel-footer">
                     <?= $Lang->get('SUPPORT__CREATEDATE') ?> <?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?>
