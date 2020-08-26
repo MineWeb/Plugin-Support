@@ -10,7 +10,9 @@ class SupportController extends AppController
     
 	function display($string)
 	{
-		return preg_replace('#<script(.*?)>(.*?)</script>#is', '', $string);
+		require "../Plugin/Support/Core/htmLawed.php";
+		
+		return htmLawed($string, ['safe' => 1]);
 	}
 
     function getCategorie($id)
