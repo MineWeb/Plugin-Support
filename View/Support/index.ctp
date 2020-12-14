@@ -48,7 +48,7 @@ $Support = new SupportController();
                   }
                   ?>
                 </td>
-                <td><?= date('d/m/Y à H:m:s', strtotime($ticket['Ticket']['created'])); ?></td>
+                <td><?= date('d/m/Y à H:i:s', strtotime($ticket['Ticket']['created'])); ?></td>
                 <td>
                     <?php if($ticket['Ticket']['state'] == 0 || $ticket['Ticket']['state'] == 1){ ?>
                     <form method="post" class="form-horizontal" data-ajax="true" data-redirect-url="?" action="<?= $this->Html->url(array('controller' => 'Support', 'action' => 'ajax_clos')) ?>">
