@@ -1,7 +1,7 @@
 {
   "name": "Support",
   "author": "Eywek",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "admin_menus": {
     "Support": {
       "icon": "ticket",
