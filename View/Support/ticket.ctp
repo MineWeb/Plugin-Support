@@ -36,7 +36,7 @@ $Support = new SupportController();
                     <?= $answer['ReplyTicket']['reply']; ?>
                 </div>
                 <div class="panel-footer">
-                    <?= $Lang->get('SUPPORT__CREATEDATE') ?> <?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?>
+                    <?= $Lang->get('SUPPORT__CREATEDATE') ?> <?= date('d/m/Y à H:i:s', strtotime($answer['ReplyTicket']['created'])); ?>
                 </div>
             </div>
         </div>
