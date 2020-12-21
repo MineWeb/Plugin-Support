@@ -4,11 +4,11 @@
   "version": "1.0.19",
   "admin_menus": {
     "Support": {
-      "icon": "ticket",
+      "icon": "fas fa-ticket-alt",
       "menu": {
         "Gérer les tickets": {
           "permission": "MANAGE_TICKETS",
-          "icon": "cog",
+          "icon": "fas fa-clipboard-list",
           "route": "/admin/support"
         },
         "Gérer les catégories": {
@@ -48,6 +48,6 @@
     }
   },
   "requirements": {
-    "CMS": "^1.2.0"
+    "CMS": "^1.11.0"
   }
 }
