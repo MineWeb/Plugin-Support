@@ -4,8 +4,8 @@ $Support = new SupportController();
 ?>
 <section class="content">
 	<h3 style="margin-top: 6px;"><?= $Lang->get('SUPPORT__SETTINGS_TITLE'); ?></h3>
-	<div class="box">
-		<div class="box-body">
+	<div class="card">
+		<div class="card-body">
 			Bientôt
 		</div>
 	</div>

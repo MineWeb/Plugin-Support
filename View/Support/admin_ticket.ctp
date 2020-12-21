@@ -28,8 +28,8 @@
                 <?php }?>
                 <br />
                 <br />
-                <div class="box">
-                    <div class="box-body">
+                <div class="card">
+                    <div class="card-body">
                         <h3 style="margin-top: 6px;"><?= $Lang->get('SUPPORT__PROBLEMQUESTION', ['{ID_TICKET}' => $ticket['Ticket']['id']]); ?> <?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></h3>
                         <h4><?= $Lang->get('SUPPORT__IN_A_CATEGORIE', ['{NAME}' => $Support->getCategorie($ticket['Ticket']['categorie'])]); ?></h4>
                     </div>
@@ -42,8 +42,8 @@
             <div style="height: 450px;" class="direct-chat-messages">
                 <div class="direct-chat-msg">
                     <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-left"><?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></span>
-                        <span class="direct-chat-timestamp pull-right"><?= date('d/m/Y à H:m:s', strtotime($ticket['Ticket']['created'])); ?></span>
+                        <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></span>
+                        <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($ticket['Ticket']['created'])); ?></span>
                     </div>
                     <img class="direct-chat-img avatar-client" data-pseudo="<?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?>" src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>" alt="message user image">
                     <div style="word-wrap: break-word;background-color: #f39c12;border-color: #f39c12;color: white;" class="direct-chat-text">
@@ -54,8 +54,8 @@
                 <?php foreach($answers as $answer): ?>
                 <div class="direct-chat-msg <?php if($answer['ReplyTicket']['type'] == 1){ ?>direct-chat-warning right<?php }?>">
                     <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name pull-left"><?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?></span>
-                        <span class="direct-chat-timestamp pull-right"><?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?></span>
+                        <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?></span>
+                        <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?></span>
                     </div>
                     <img class="direct-chat-img avatar-client" data-pseudo="<?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?>" src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>" alt="message user image">
                     <div style="word-wrap: break-word;<?php if($answer['ReplyTicket']['type'] != 1){ ?>background-color: #f39c12;border-color: #f39c12;color: white;<?php }?>" class="direct-chat-text">
@@ -69,9 +69,9 @@
                 <?php if($Permissions->can('MANAGE_TICKETS') && $Permissions->can('ANSWER_TICKETS')){ ?>
                 <h3><?= $Lang->get('SUPPORT__REPLYTICKET') ?></h3>
                 <hr style="border-top: 1px solid #dedede;">
-                <div class="box">
-                    <div class="box-body">
-                        <?php if($ticket[ 'Ticket'][ 'state'] !=2 ){ ?>
+                <div class="card">
+                    <div class="card-body">
+                        <?php if($ticket['Ticket']['state'] !=2 ){ ?>
                         <form method="post" class="form-horizontal" data-ajax="true" data-redirect-url="../" action="<?= $this->Html->url(array('controller' => 'Support', 'action' => 'ajax_replya')) ?>">
                             <input type="hidden" name="idTicket" value="<?= $ticket['Ticket']['id']; ?>">
                             <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
