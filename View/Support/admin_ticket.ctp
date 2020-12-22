@@ -1,4 +1,5 @@
-<?php App::import( 'Controller', 'SupportController'); $Support=new SupportController(); ?>
+<?php App::import('Controller', 'SupportController');
+$Support = new SupportController(); ?>
 <style>
     .direct-chat-text:after,
     .direct-chat-text:before {
@@ -12,6 +13,7 @@
         width: 0;
         pointer-events: none;
     }
+
     .direct-chat-text:before {
         border-width: 6px;
         margin-top: -6px;
@@ -22,12 +24,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-primary" href="<?= $this->Html->url(array('controller' => 'Support', 'admin' => true, 'action' => 'index')) ?>"><i class="fa fa-arrow-left"></i> <?= $Lang->get('SUPPORT_BACK_TO_LIST'); ?></a>
-                <?php if($ticket['Ticket']['state']==0 || $ticket['Ticket']['state']==1 ){ ?>
-                <a class="btn btn-danger" href="<?= $this->Html->url(array('plugin' => null, 'admin' => true, 'controller' => 'support', 'action' => 'closa_adm', ''.$ticket['Ticket']['id'].'')) ?>"><i class="fa fa-close"></i> <?= $Lang->get('SUPPORT__CLOSE'); ?></a>
-                <?php }?>
-                <br />
-                <br />
+                <a class="btn btn-primary"
+                   href="<?= $this->Html->url(array('controller' => 'Support', 'admin' => true, 'action' => 'index')) ?>"><i
+                            class="fa fa-arrow-left"></i> <?= $Lang->get('SUPPORT_BACK_TO_LIST'); ?></a>
+                <?php if ($ticket['Ticket']['state'] == 0 || $ticket['Ticket']['state'] == 1) { ?>
+                    <a class="btn btn-danger"
+                       href="<?= $this->Html->url(array('plugin' => null, 'admin' => true, 'controller' => 'support', 'action' => 'closa_adm', '' . $ticket['Ticket']['id'] . '')) ?>"><i
+                                class="fa fa-close"></i> <?= $Lang->get('SUPPORT__CLOSE'); ?></a>
+                <?php } ?>
+                <br/>
+                <br/>
                 <div class="card">
                     <div class="card-body">
                         <h3 style="margin-top: 6px;"><?= $Lang->get('SUPPORT__PROBLEMQUESTION', ['{ID_TICKET}' => $ticket['Ticket']['id']]); ?> <?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></h3>
@@ -35,85 +41,106 @@
                     </div>
                 </div>
             </div>
+            <hr style="border-top: 1px solid #dedede;">
+
             <div class="col-sm-12">
-                <h3 style="margin-top: 0.1em;"><?= $Lang->get('SUPPORT__ANSWER'); ?></h3>
-                <hr style="border-top: 1px solid #dedede;">
-            </div>
-            <div style="height: 450px;" class="direct-chat-messages">
-                <div class="direct-chat-msg">
-                    <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></span>
-                        <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($ticket['Ticket']['created'])); ?></span>
-                    </div>
-                    <img class="direct-chat-img avatar-client" data-pseudo="<?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?>" src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>" alt="message user image">
-                    <div style="word-wrap: break-word;background-color: #f39c12;border-color: #f39c12;color: white;" class="direct-chat-text">
-                        <?= $ticket[ 'Ticket'][ 'reponse_text']; ?>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <?php foreach($answers as $answer): ?>
-                <div class="direct-chat-msg <?php if($answer['ReplyTicket']['type'] == 1){ ?>direct-chat-warning right<?php }?>">
-                    <div class="direct-chat-info clearfix">
-                        <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?></span>
-                        <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?></span>
-                    </div>
-                    <img class="direct-chat-img avatar-client" data-pseudo="<?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?>" src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>" alt="message user image">
-                    <div style="word-wrap: break-word;<?php if($answer['ReplyTicket']['type'] != 1){ ?>background-color: #f39c12;border-color: #f39c12;color: white;<?php }?>" class="direct-chat-text">
-                        <?= $answer['ReplyTicket']['reply']; ?>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-sm-12">
-                <?php if($Permissions->can('MANAGE_TICKETS') && $Permissions->can('ANSWER_TICKETS')){ ?>
-                <h3><?= $Lang->get('SUPPORT__REPLYTICKET') ?></h3>
-                <hr style="border-top: 1px solid #dedede;">
                 <div class="card">
-                    <div class="card-body">
-                        <?php if($ticket['Ticket']['state'] !=2 ){ ?>
-                        <form method="post" class="form-horizontal" data-ajax="true" data-redirect-url="../" action="<?= $this->Html->url(array('controller' => 'Support', 'action' => 'ajax_replya')) ?>">
-                            <input type="hidden" name="idTicket" value="<?= $ticket['Ticket']['id']; ?>">
-                            <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
-                                <script type="text/javascript">
-                                    tinymce.init({
-                                        selector: "textarea",
-                                        height: 300,
-                                        width: '100%',
-                                        language: 'fr_FR',
-                                        plugins: "textcolor code image link",
-                                        toolbar: "fontselect fontsizeselect bold italic underline strikethrough link image forecolor backcolor alignleft aligncenter alignright alignjustify cut copy paste bullist numlist outdent indent blockquote code"
-                                    });
-                                </script>
-                                <textarea id="editor" name="reponse_text" cols="30" rows="10"></textarea>
-                                <br>
-                                <button class="btn btn-primary" type="submit">
-                                    <?= $Lang->get('SUPPORT__REPLY') ?>
-                                </button>
-                        </form>
-                        <?php }else{ ?>
-                        <div class="alert alert-warning">
-                            <?= $Lang->get('SUPPORT__CLOSTICKETWARNING') ?>
+                    <div class="card-header">
+                        <div class="card-title">
+                            <?= $Lang->get('SUPPORT__ANSWER'); ?>
                         </div>
-                        <?php }?>
+                    </div>
+                    <div class="card-body">
+                        <div style="height: 450px;" class="direct-chat-messages">
+                            <div class="direct-chat-msg">
+                                <div class="direct-chat-info clearfix">
+                                    <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?></span>
+                                    <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($ticket['Ticket']['created'])); ?></span>
+                                </div>
+                                <img class="direct-chat-img avatar-client"
+                                     data-pseudo="<?= $Support->getUser('pseudo', $ticket['Ticket']['author']); ?>"
+                                     src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>"
+                                     alt="message user image">
+                                <div style="word-wrap: break-word;background-color: #f39c12;border-color: #f39c12;color: white;"
+                                     class="direct-chat-text">
+                                    <?= $ticket['Ticket']['reponse_text']; ?>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <?php foreach ($answers as $answer): ?>
+                                <div class="direct-chat-msg <?php if ($answer['ReplyTicket']['type'] == 1) { ?>direct-chat-warning right<?php } ?>">
+                                    <div class="direct-chat-info clearfix">
+                                        <span class="direct-chat-name float-left"><?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?></span>
+                                        <span class="direct-chat-timestamp float-right"><?= date('d/m/Y à H:m:s', strtotime($answer['ReplyTicket']['created'])); ?></span>
+                                    </div>
+                                    <img class="direct-chat-img avatar-client"
+                                         data-pseudo="<?= $Support->getUser('pseudo', $answer['ReplyTicket']['author']); ?>"
+                                         src="<?= $this->Html->url(array('controller' => 'support', 'action' => 'img', 'admin' => false, 'plugin' => null, 'steve.png')); ?>"
+                                         alt="message user image">
+                                    <div style="word-wrap: break-word;<?php if ($answer['ReplyTicket']['type'] != 1) { ?>background-color: #f39c12;border-color: #f39c12;color: white;<?php } ?>"
+                                         class="direct-chat-text">
+                                        <?= $answer['ReplyTicket']['reply']; ?>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-                <?php }else{ ?>
-                <div class="alert alert-danger">
-                    <?= $Lang->get('SUPPORT__ERROR_PERMISSION_ANSWER'); ?>
-                </div>
-                <?php }?>
+            </div>
+            <div class="col-sm-12">
+                <?php if ($Permissions->can('MANAGE_TICKETS') && $Permissions->can('ANSWER_TICKETS')) { ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <?= $Lang->get('SUPPORT__REPLYTICKET') ?>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <?php if ($ticket['Ticket']['state'] != 2) { ?>
+                                <form method="post" class="form-horizontal" data-ajax="true" data-redirect-url="../"
+                                      action="<?= $this->Html->url(array('controller' => 'Support', 'action' => 'ajax_replya')) ?>">
+                                    <input type="hidden" name="idTicket" value="<?= $ticket['Ticket']['id']; ?>">
+                                    <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
+                                    <script type="text/javascript">
+                                        tinymce.init({
+                                            selector: "textarea",
+                                            height: 300,
+                                            width: '100%',
+                                            language: 'fr_FR',
+                                            plugins: "textcolor code image link",
+                                            toolbar: "fontselect fontsizeselect bold italic underline strikethrough link image forecolor backcolor alignleft aligncenter alignright alignjustify cut copy paste bullist numlist outdent indent blockquote code"
+                                        });
+                                    </script>
+                                    <textarea id="editor" name="reponse_text" cols="30" rows="10"></textarea>
+                                    <br>
+                                    <button class="btn btn-primary" type="submit">
+                                        <?= $Lang->get('SUPPORT__REPLY') ?>
+                                    </button>
+                                </form>
+                            <?php } else { ?>
+                                <div class="alert alert-warning">
+                                    <?= $Lang->get('SUPPORT__CLOSTICKETWARNING') ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                <?php } else { ?>
+                    <div class="alert alert-danger">
+                        <?= $Lang->get('SUPPORT__ERROR_PERMISSION_ANSWER'); ?>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </div>
 </section>
 <script>
-    $(document).ready(function() {
-        $('.avatar-client').one("load", function() {
+    $(document).ready(function () {
+        $('.avatar-client').one("load", function () {
             var pseudo = $(this).attr("data-pseudo");
             var src = "<?= $this->Html->url('/'); ?>API/get_head_skin/" + pseudo + "/32";
             $(this).attr("src", src);
-        }).each(function() {
+        }).each(function () {
             if (this.complete) $(this).load();
         });
         AddTags("editor", "", "<br /><br /><hr>Cordialement,<br /><?= $user['pseudo']; ?>");
@@ -132,6 +159,7 @@
                 }
                 document.getElementById(name).value = textArray.join("\n");
             }
-        } catch (err) {}
+        } catch (err) {
+        }
     }
 </script>
