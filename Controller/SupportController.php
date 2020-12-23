@@ -2,6 +2,8 @@
 
 class SupportController extends AppController
 {
+    public $components = ['EySecurity'];
+
     public function getUser($tag, $id)
     {
         $this->loadModel('User');
@@ -211,7 +213,7 @@ class SupportController extends AppController
             throw new BadRequestException();
         if (empty($this->request->data['subject']) || empty($this->request->data['reponse_text']))
             return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
-        $contentTicket = htmlspecialchars($this->request->data['reponse_text']);
+        $contentTicket = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
         if (strlen($contentTicket) < 50)
             return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('SUPPORT__ERROR_PROBLEM_SHORT')]);
         $this->loadModel('Support.Ticket');
@@ -263,7 +265,7 @@ class SupportController extends AppController
         $ticket = $this->Ticket->find('first', ['conditions' => ['id' => $this->request->data['idTicket']]]);
         if (empty($ticket))
             throw new NotFoundException();
-        $contentAnswer = htmlspecialchars($this->request->data['reponse_text']);
+        $contentAnswer = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
         if (empty($contentAnswer)) {
             $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('SUPPORT__ERROR_RESOLVE_EMPTY')]);
             return;
@@ -295,7 +297,7 @@ class SupportController extends AppController
         $ticket = $this->Ticket->find('first', ['conditions' => ['id' => $this->request->data['idTicket'], 'author' => $this->User->getKey('id')]]);
         if (empty($ticket))
             throw new NotFoundException();
-        $contentAnswer = htmlspecialchars($this->request->data['reponse_text']);
+        $contentAnswer = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
         if ($contentAnswer != null) {
             $this->Ticket->read(null, $ticket['Ticket']['id']);
             $this->Ticket->set(['state' => 0]);
