@@ -1,8 +1,7 @@
 # Plugin Mineweb | Support
 
 ## Description
-Ce plugin vous permet d'afficher des miniatures aux news
-
+Le plugin Shop ajoute un système de boutique sur votre site, permettant à vos joueurs de les acheter (VotreSite/shop).
 ## Installation | FTP
 1. Cliquez sur "Clone or download" sur la page "https://github.com/MineWeb/Plugin-Support".
 2. Téléchargez et enregistrez le ZIP, puis extrayez le.
