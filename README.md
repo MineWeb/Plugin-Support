@@ -1,7 +1,7 @@
 # Plugin Mineweb | Support
 
 ## Description
-Ce plugin vous permet d'afficher des miniatures aux news
+Ce plugin vous permet d'offrir un support sur votre site (VotreSite/support).
 
 ## Installation | FTP
 1. Cliquez sur "Clone or download" sur la page "https://github.com/MineWeb/Plugin-Support".
