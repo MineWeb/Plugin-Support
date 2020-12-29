@@ -4,16 +4,6 @@ $Support = new SupportController();
 ?>
 <section class="content">
 	<div class="row">
-		<?php $isUpdateImportant; ?>
-		<?php if($isUpdateImportant == true): ?>
-		<div class="col-sm-12">
-			<div class="alert alert-warning">
-				<b><?= $Lang->get('SUPPORT__WARNING_ALERT'); ?></b>
-				<br /> <?= $Lang->get('SUPPORT__WARNING_ALERT_MAJ'); ?>
-				<br /> <?= $Lang->get('SUPPORT__WARNING_ALERT_MAJ_MORE'); ?>
-			</div>
-		</div>
-		<?php endif; ?>
         <div class="col-md-3">
 			<div class="card card-solid">
 				<div class="card-header with-border">
