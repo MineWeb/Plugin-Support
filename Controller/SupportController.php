@@ -54,7 +54,7 @@ class SupportController extends AppController
         if ($stateActive > 3) {
             $this->redirect('/admin/support?state=0');
         }
-        $state_ticket = array(array("name" => "Répondu", "id" => "", "isActive" => false, "customClass" => "warning"), array("name" => "En attente", "id" => "", "customClass" => "info", "isActive" => false), array("name" => "Clôs", "id" => "", "customClass" => "danger", "isActive" => false), array("name" => "Réouvert", "id" => "", "customClass" => "success", "isActive" => false));
+        $state_ticket = array(array("name" => "En attente", "id" => "", "isActive" => false, "customClass" => "warning"), array("name" => "Répondu", "id" => "", "customClass" => "info", "isActive" => false), array("name" => "Clôs", "id" => "", "customClass" => "danger", "isActive" => false), array("name" => "Réouvert", "id" => "", "customClass" => "success", "isActive" => false));
         $stateCurrentData = array();
         foreach ($state_ticket as $k => $st):
             $ticketCountState = $this->Ticket->find('count', array('conditions' => array('Ticket.state' => array($k))));
@@ -65,13 +65,7 @@ class SupportController extends AppController
             }
         endforeach;
         $tickets = $this->Ticket->find('all', array('conditions' => array('Ticket.state' => array($stateActive))));
-
-        $this->loadModel('Plugins');
-        $plugins = $this->Plugins->find('all');
-        foreach ($plugins as $pl)
-            if ($pl['Plugins']['apiID'] == 2 && $pl['Plugins']['version'] == "1.0.16")
-                $isUpdateImportant = true;
-        $this->set(compact('tickets', 'state_ticket', 'stateCurrentData', 'isUpdateImportant'));
+        $this->set(compact('tickets', 'state_ticket', 'stateCurrentData'));
     }
 
     function admin_config()
@@ -174,6 +168,9 @@ class SupportController extends AppController
         $this->loadModel('Support.Ticket');
         $this->loadModel('Support.ReplyTicket');
         $ticket = $this->Ticket->find('first', array('conditions' => array("Ticket.id" => array($id))));
+        $ticket['Ticket']['reponse_text'] = $this->EySecurity->xssProtection($ticket['Ticket']['reponse_text']);
+        $this->log($this->EySecurity->xssProtection($ticket['Ticket']['reponse_text']));
+
         if (empty($ticket))
             throw new NotFoundException();
         $answers = $this->ReplyTicket->find('all', array('conditions' => array("ReplyTicket.ticket_id" => array($id))));
