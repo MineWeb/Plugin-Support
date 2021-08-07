@@ -104,7 +104,7 @@ $Support = new SupportController(); ?>
                                     <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
                                     <script type="text/javascript">
                                         tinymce.init({
-                                            selector: "textarea",
+                                            selector: "#editor",
                                             height: 300,
                                             width: '100%',
                                             language: 'fr_FR',
