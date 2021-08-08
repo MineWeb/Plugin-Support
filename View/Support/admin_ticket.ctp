@@ -136,11 +136,11 @@ $Support = new SupportController(); ?>
 </section>
 <script>
     $(document).ready(function () {
-		$('.avatar-client').each(function () {
-			var pseudo = $(this).attr("data-pseudo");
+        $('.avatar-client').each(function () {
+            var pseudo = $(this).attr("data-pseudo");
             var src = "<?= $this->Html->url('/'); ?>API/get_head_skin/" + pseudo + "/32";
             $(this).attr("src", src);
-		});
+        });
         AddTags("editor", "", "<br /><br /><hr>Cordialement,<br /><?= $user['pseudo']; ?>");
     });
 
