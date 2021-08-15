@@ -104,7 +104,7 @@ $Support = new SupportController(); ?>
                                     <?= $this->Html->script('admin/tinymce/tinymce.min.js') ?>
                                     <script type="text/javascript">
                                         tinymce.init({
-                                            selector: "textarea",
+                                            selector: "textarea#editor",
                                             height: 300,
                                             width: '100%',
                                             language: 'fr_FR',
@@ -136,12 +136,10 @@ $Support = new SupportController(); ?>
 </section>
 <script>
     $(document).ready(function () {
-        $('.avatar-client').one("load", function () {
+        $('.avatar-client').each(function () {
             var pseudo = $(this).attr("data-pseudo");
             var src = "<?= $this->Html->url('/'); ?>API/get_head_skin/" + pseudo + "/32";
             $(this).attr("src", src);
-        }).each(function () {
-            if (this.complete) $(this).load();
         });
         AddTags("editor", "", "<br /><br /><hr>Cordialement,<br /><?= $user['pseudo']; ?>");
     });
