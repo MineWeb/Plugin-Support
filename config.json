@@ -1,7 +1,7 @@
 {
   "name": "Support",
   "author": "Eywek",
-  "version": "1.0.40",
+  "version": "1.0.45",
   "admin_menus": {
     "Support": {
       "icon": "fas fa-ticket-alt",
