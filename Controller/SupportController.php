@@ -168,8 +168,7 @@ class SupportController extends AppController
         $this->loadModel('Support.Ticket');
         $this->loadModel('Support.ReplyTicket');
         $ticket = $this->Ticket->find('first', array('conditions' => array("Ticket.id" => array($id))));
-        $ticket['Ticket']['reponse_text'] = $this->EySecurity->xssProtection($ticket['Ticket']['reponse_text']);
-        $this->log($this->EySecurity->xssProtection($ticket['Ticket']['reponse_text']));
+        $ticket['Ticket']['reponse_text'] = $ticket['Ticket']['reponse_text'];
 
         if (empty($ticket))
             throw new NotFoundException();
@@ -210,7 +209,7 @@ class SupportController extends AppController
             throw new BadRequestException();
         if (empty($this->request->data['subject']) || empty($this->request->data['reponse_text']))
             return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
-        $contentTicket = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
+        $contentTicket = $this->request->data['reponse_text'];
         if (strlen($contentTicket) < 50)
             return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('SUPPORT__ERROR_PROBLEM_SHORT')]);
         $this->loadModel('Support.Ticket');
@@ -262,7 +261,7 @@ class SupportController extends AppController
         $ticket = $this->Ticket->find('first', ['conditions' => ['id' => $this->request->data['idTicket']]]);
         if (empty($ticket))
             throw new NotFoundException();
-        $contentAnswer = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
+        $contentAnswer = $this->request->data['reponse_text'];
         if (empty($contentAnswer)) {
             $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('SUPPORT__ERROR_RESOLVE_EMPTY')]);
             return;
@@ -294,7 +293,7 @@ class SupportController extends AppController
         $ticket = $this->Ticket->find('first', ['conditions' => ['id' => $this->request->data['idTicket'], 'author' => $this->User->getKey('id')]]);
         if (empty($ticket))
             throw new NotFoundException();
-        $contentAnswer = $this->EySecurity->xssProtection($this->request->data['reponse_text']);
+        $contentAnswer = $this->request->data['reponse_text'];
         if ($contentAnswer != null) {
             $this->Ticket->read(null, $ticket['Ticket']['id']);
             $this->Ticket->set(['state' => 0]);
