@@ -1,7 +1,7 @@
 {
   "name": "Support",
   "author": "Eywek",
-  "version": "1.0.30",
+  "version": "1.0.40",
   "admin_menus": {
     "Support": {
       "icon": "fas fa-ticket-alt",
@@ -48,6 +48,6 @@
     }
   },
   "requirements": {
-    "CMS": "^1.11.0"
+    "CMS": "^1.15.2"
   }
 }
