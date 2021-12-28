@@ -27,7 +27,7 @@ $Support = new SupportController();
             <tbody>
               <?php foreach($tickets as $ticket): ?>
               <tr>
-                <td><?=  htmlspecialchars(htmlentities(strip_tags($ticket['Ticket']['subject']))); ?></td>
+                <td><?= $ticket['Ticket']['subject'] ?></td>
                 <td><?= $Support->getCategorie($ticket['Ticket']['categorie']); ?></td>
                 <td>
                   <?php
