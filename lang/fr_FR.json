@@ -65,10 +65,13 @@
     "SUPPORT__CATEGORIE_CREATE_BUTTON": "Créer une catégorie",
     "SUPPORT__CATEGORIE_CREATE_TITLE": "Ajouter une catégorie",
     "SUPPORT__CATEGORIE_NAME_OF_CATEGORIE": "Nom de la catégorie",
-    "SUPPORT__CATEGORIE_CREATE_BUTTON": "Créer la catégorie",
     "SUPPORT__CATEGORIE_EDIT_TITLE": "Édition de la catégories",
     "SUPPORT__IN_A_CATEGORIE": "Dans la catégorie, {NAME}",
 
+    "SUPPORT__SETTINGS_WEBHOOK": "URL du Webhook Discord",
+    "SUPPORT__SETTINGS_SUCCESS_MODIFIED": "Paramètres modifiés avec succès",
+
+    "SUPPORT__DISCORD_EMBED_CREATE_DESCRIPTION": "Sujet: {SUBJECT_NAME}\nCatégorie: {CATEGORIE_NAME}",
 
     "PERMISSIONS__MANAGE_TICKETS": "Gérer les tickets du support",
     "PERMISSIONS__VIEW_TICKETS": "Voir les tickets du support",
@@ -81,5 +84,4 @@
     "PERMISSIONS__EDIT_CATEGORIE": "Éditer les catégories",
     "PERMISSIONS__DELETE_CATEGORIE": "Supprimer les catégories du support",
 	"PERMISSIONS__SETTINGS_SUPPORT": "Paramètres du support"
-	
 }

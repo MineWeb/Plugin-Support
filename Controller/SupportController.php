@@ -1,6 +1,6 @@
 <?php
 
-class SupportController extends AppController
+class SupportController extends SupportAppController
 {
     public $components = ['EySecurity'];
 
@@ -71,11 +71,38 @@ class SupportController extends AppController
     function admin_config()
     {
         $this->layout = 'admin';
-        if (!$this->Permissions->can('SETTINGS_SUPPORT'))
+        if (!$this->Permissions->can('PERMISSIONS__SETTINGS_SUPPORT'))
             throw new ForbiddenException();
-        $this->set('title_for_layout', $this->Lang->get('SUPPORT__SETTINGS_TITLE') . ' - ' . $this->Lang->get('SUPPORT__SUPPORT'));
+        
         $this->loadModel('Support.SettingsSupport');
+        if ($this->request->is('post')) {
+            if (!isset($this->request->data["webhook"])) {
+                return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
+            }
+    
+            $settings = $this->SettingsSupport->find('first');
+            if (!$settings) {
+                $this->SettingsSupport->create([
+                    "discord_webhook" => $this->request->data["webhook"]
+                ]);
+            } else {
+                $this->SettingsSupport->read(null, $settings["SettingsSupport"]["id"]);
+                $this->SettingsSupport->set([
+                    "discord_webhook" => $this->request->data["webhook"]
+                ]);
+            }
+    
+            $this->SettingsSupport->save();
+            $this->Session->setFlash($this->Lang->get('CONFIG__EDIT_SUCCESS'), 'default.success');
+            $this->redirect("/admin/support/config");
+        }
+
+        $this->set('title_for_layout', $this->Lang->get('SUPPORT__SETTINGS_TITLE') . ' - ' . $this->Lang->get('SUPPORT__SUPPORT'));
         $settings = $this->SettingsSupport->find('first');
+        if ($settings) {
+            $settings = $settings["SettingsSupport"];
+        }
+
         $this->set(compact('settings'));
     }
 
@@ -222,6 +249,17 @@ class SupportController extends AppController
         ));
         $this->Ticket->save();
         $this->Notification->setToAdmin($this->User->getKey('pseudo') . ' ' . $this->Lang->get('SUPPORT__NOTIF_CREATE'));
+
+        $this->loadModel("Support.CategoriesSupport");
+        $categorieName = $this->CategoriesSupport->find("first", ["conditions" => ["id" => $this->request->data['categorie']]])["CategoriesSupport"]["name"];
+        $this->sendDiscordMessage("", [array(
+            "title" => "SUPPORT: Nouveau ticket par " . $this->User->getKey("pseudo"),
+            "color" => "3447003",
+            "description" => $this->Lang->get('SUPPORT__DISCORD_EMBED_CREATE_DESCRIPTION', 
+                ['{SUBJECT_NAME}' => $this->request->data['subject'], '{CATEGORIE_NAME}' => $categorieName]
+            )
+        )]);
+
         $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SUPPORT__SUCCESS_CREATE')]);
     }
 

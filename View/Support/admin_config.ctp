@@ -1,12 +1,18 @@
-<?php
-App::import('Controller', 'SupportController');
-$Support = new SupportController();
-?>
 <section class="content">
 	<h3 style="margin-top: 6px;"><?= $Lang->get('SUPPORT__SETTINGS_TITLE'); ?></h3>
 	<div class="card">
 		<div class="card-body">
-			Bientôt
+      <form method="post">
+        <div class="row">
+          <div class="col-sm-5">
+                  <label><?= $Lang->get('SUPPORT__SETTINGS_WEBHOOK'); ?></label>
+                  <input type="text" class="form-control" name="webhook" value="<?= $settings ? $settings["discord_webhook"] : "" ?>">
+          </div>
+        </div>
+
+        <button type="submit"
+                  class="btn btn-primary float-right"><?= $Lang->get('GLOBAL__SUBMIT'); ?></button>
+      </form>
 		</div>
 	</div>
 </section>
@@ -14,14 +20,14 @@ $Support = new SupportController();
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title"><?= $Lang->get('SUPPORT__SHOW_EDIT'); ?></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
 		<h4>Aperçu</h4>
 		<hr>
 		<blockquote>
-            <?= $settings['SettingsSupport']['suffix_reply']; ?>
+            <?= $settings ? $settings['suffix_reply'] : "" ?>
         </blockquote>
       </div>
       <div class="modal-footer">
