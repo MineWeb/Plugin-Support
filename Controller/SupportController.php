@@ -106,32 +106,6 @@ class SupportController extends SupportAppController
         $this->set(compact('settings'));
     }
 
-    function admin_ajax_edit_settings()
-    {
-        if (!$this->Permissions->can('PERMISSIONS__SETTINGS_SUPPORT'))
-            throw new ForbiddenException();
-        
-        if (!isset($this->request->data["webhook"])) {
-            return $this->sendJSON(['statut' => false, 'msg' => $this->Lang->get('ERROR__FILL_ALL_FIELDS')]);
-        }
-
-        $this->loadModel('Support.SettingsSupport');
-        $settings = $this->SettingsSupport->find('first');
-        if (!$settings) {
-            $this->Ticket->create([
-                "discord_webhook" => $this->request->data["webhook"]
-            ]);
-        } else {
-            $this->Ticket->read(null, $settings["SettingsSupport"]["id"]);
-            $this->Ticket->set([
-                "discord_webhook" => $this->request->data["webhook"]
-            ]);
-        }
-
-        $this->Ticket->save();
-        $this->sendJSON(['statut' => true, 'msg' => $this->Lang->get('SUPPORT__SETTINGS_SUCCESS_MODIFIED')]);
-    }
-
     function admin_ajax_create_categorie()
     {
         if (!$this->Permissions->can('MANAGE_CATEGORIES'))
